@@ -17,9 +17,11 @@ import model.User;
 
 @WebFilter(filterName = "AuthenFilter3", urlPatterns = {"/*"})
 public class AuthenFilter3 implements Filter {
-    private static final String US = "us";
-    private static final String AD = "ad";
-    private static final String LOGIN_PAGE = "login2.jsp";
+    // Role constants
+    private static final String US = "user";
+    private static final String AD = "Admin";
+    // Login page
+    private static final String LOGIN_PAGE = "login.jsp";
     private static final boolean DEBUG = true;
 
     private static final Set<String> ADMIN_FUNC = new HashSet<>();
@@ -31,15 +33,32 @@ public class AuthenFilter3 implements Filter {
 
     private FilterConfig filterConfig = null;
 
-    public AuthenFilter3(){
-        // Các tài nguyên cho admin
-        ADMIN_FUNC.add("admin2.jsp");
-        ADMIN_FUNC.add("searchuser");
-        ADMIN_FUNC.add(LOGIN_PAGE);
+    public AuthenFilter3() {
+        // Resources accessible by admin
+        ADMIN_FUNC.addAll(Arrays.asList(
+                "createUser.jsp",
+                "deleteUser.jsp",
+                "listUser.jsp",
+                "selectUser.jsp",
+                "updateUser.jsp",
+                "createProduct.jsp",
+                "deleteProduct.jsp",
+                "updateProduct.jsp",
+                "listProduct.jsp",
+                "products",
+                "users",
+                "logout",
+                LOGIN_PAGE
+        ));
 
-        // Các tài nguyên cho user thông thường
-        USER_FUNC.add("userInf.jsp");
-        USER_FUNC.add(LOGIN_PAGE);
+        // Resources accessible by normal user
+        USER_FUNC.addAll(Arrays.asList(
+                "userInf.jsp",
+                "listProduct.jsp",
+                "products",
+                "logout",
+                LOGIN_PAGE
+        ));
     }
 
     @Override
@@ -70,12 +89,12 @@ public class AuthenFilter3 implements Filter {
             String resource = uri.substring(index + 1);
 
             HttpSession session = req.getSession(false);
-            if (session == null || session.getAttribute("username") == null) {
+            if (session == null || session.getAttribute("user") == null) {
                 res.sendRedirect(LOGIN_PAGE);
                 return;
             }
 
-            User user = (User) session.getAttribute("username");
+            User user = (User) session.getAttribute("user");
             String role = user.getRole();
 
             // Phân quyền truy cập theo role
