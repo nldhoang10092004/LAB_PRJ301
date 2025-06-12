@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
-import productDAO.ProductDAO;
+import service.IProductService;
+import service.ProductService;
 import userDAO.UserDAO;
 import model.User;
 
@@ -26,11 +27,11 @@ import model.User;
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
 public class ProductServlet extends HttpServlet {
 
-    private ProductDAO productDAO;
+    private IProductService productService;
 
     @Override
     public void init() throws ServletException {
-        this.productDAO = new ProductDAO();
+        this.productService = new ProductService();
     }
 
     /**
@@ -184,7 +185,7 @@ public class ProductServlet extends HttpServlet {
     // Phương thức hiển thị danh sách sản phẩm
     private void getListProducts(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> productList = productDAO.selectAllProducts();
+        List<Product> productList = productService.getAllProducts();
         request.setAttribute("products", productList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("product/listProduct.jsp");
         dispatcher.forward(request, response);
@@ -203,7 +204,7 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            Product product = productDAO.selectProduct(id);
+            Product product = productService.getProductById(id);
             if (product != null) {
                 request.setAttribute("product", product);
                 request.getRequestDispatcher("/product/updateProduct.jsp").forward(request, response);
@@ -222,7 +223,7 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            Product product = productDAO.selectProduct(id);
+            Product product = productService.getProductById(id);
             if (product != null) {
                 request.setAttribute("productId", product.getId());
                 request.setAttribute("productName", product.getName());
@@ -242,7 +243,7 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            Product product = productDAO.selectProduct(id);
+            Product product = productService.getProductById(id);
             if (product != null) {
                 request.setAttribute("product", product);
                 request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
@@ -287,7 +288,7 @@ public class ProductServlet extends HttpServlet {
             }
 
             Product product = new Product(0, name, price, description, stock, null);
-            productDAO.insertProduct(product);
+            productService.createProduct(product);
             request.setAttribute("msg", "Tạo sản phẩm thành công!");
             getListProducts(request, response);
         } catch (IllegalArgumentException e) {
@@ -331,7 +332,7 @@ public class ProductServlet extends HttpServlet {
             }
 
             Product product = new Product(id, name, price, description, stock, null);
-            boolean updated = productDAO.updateProduct(product);
+            boolean updated = productService.updateProduct(product);
             if (updated) {
                 request.setAttribute("msg", "Cập nhật sản phẩm thành công!");
             } else {
@@ -355,7 +356,7 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            boolean deleted = productDAO.deleteProduct(id);
+            boolean deleted = productService.deleteProduct(id);
             if (deleted) {
                 request.setAttribute("msg", "Xóa sản phẩm thành công!");
             } else {
