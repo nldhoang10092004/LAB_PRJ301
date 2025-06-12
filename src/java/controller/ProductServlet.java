@@ -166,6 +166,9 @@ public class ProductServlet extends HttpServlet {
             case "select":
                 selectProduct(request, response);
                 break;
+            case "cart":
+                getListProductsForCart(request, response);
+                break;
             default:
                 getListProducts(request, response);
                 break;
@@ -190,8 +193,6 @@ public class ProductServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("product/listProduct.jsp");
         dispatcher.forward(request, response);
     }
-    
-    
 
     // Phương thức hiển thị form tạo sản phẩm
     private void getCreateProduct(HttpServletRequest request, HttpServletResponse response)
@@ -236,6 +237,15 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("msg", "ID không hợp lệ!");
             getListProducts(request, response);
         }
+    }
+
+    // Hiển thị danh sách sản phẩm cho trang mua hàng
+    private void getListProductsForCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Product> productList = productService.getAllProducts();
+        request.setAttribute("products", productList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/productListCart.jsp");
+        dispatcher.forward(request, response);
     }
 
     // Phương thức hiển thị chi tiết sản phẩm
