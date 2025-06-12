@@ -68,7 +68,7 @@ public class OrderDAO implements IOrderDAO {
     public int createOrder(Order order) {
         int generatedId = -1;
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = con.prepareStatement(INSERT_ORDER)) {
             ps.setInt(1, order.getUserId());
             ps.setDouble(2, order.getTotalPrice());
             ps.setString(3, order.getStatus());
