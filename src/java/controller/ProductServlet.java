@@ -342,9 +342,6 @@ public class ProductServlet extends HttpServlet {
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", e.getMessage());
             getUpdateProduct(request, response);
-        } catch (SQLException e) {
-            request.setAttribute("error", "Lỗi cơ sở dữ liệu: " + e.getMessage());
-            getUpdateProduct(request, response);
         } catch (Exception e) {
             request.setAttribute("error", "Lỗi khi cập nhật sản phẩm: " + e.getMessage());
             getUpdateProduct(request, response);

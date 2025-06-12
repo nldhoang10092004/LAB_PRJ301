@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import model.*;
 import service.*;
 
-@WebServlet(name = "CartServlet", urlPatterns = {"/carts"})
+@WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
 public class CartServlet extends HttpServlet {
     private IProductService productService;
     private ICartService cartService;
@@ -68,6 +68,6 @@ public class CartServlet extends HttpServlet {
         }
 
         session.setAttribute("cart", cart);
-        response.sendRedirect("cart/cart2.jsp");
+        response.sendRedirect("cart/cart.jsp");
     }
 }
