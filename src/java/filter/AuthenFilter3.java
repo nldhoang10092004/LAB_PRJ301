@@ -99,7 +99,7 @@ public class AuthenFilter3 implements Filter {
 
             HttpSession session = req.getSession(false);
             if (session == null || session.getAttribute("user") == null) {
-                res.sendRedirect(LOGIN_PAGE);
+                res.sendRedirect(req.getContextPath() + "/" + LOGIN_PAGE);
                 return;
             }
 
@@ -116,7 +116,7 @@ public class AuthenFilter3 implements Filter {
             }
         } catch (Exception e) {
             e.printStackTrace();  // Nên dùng logger thực tế
-            ((HttpServletResponse) response).sendRedirect(LOGIN_PAGE);
+            ((HttpServletResponse) response).sendRedirect(((HttpServletRequest)request).getContextPath() + "/" + LOGIN_PAGE);
         }
     }
 
