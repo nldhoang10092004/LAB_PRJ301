@@ -68,13 +68,12 @@ public class UserDAO implements IUserDAO {
     public void insertUser(User user) {
         try (Connection con = DBConnection.getConnection()) {
             PreparedStatement ps = con.prepareStatement(INSERT_USER);
-            ps.setInt(1, user.getId());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getCountry());
-            ps.setString(4, user.getRole());
-            ps.setBoolean(5, user.isStatus());
-            ps.setString(6, user.getPassword());
-            ps.setString(7, user.getDob());
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getCountry());
+            ps.setString(3, user.getRole());
+            ps.setBoolean(4, user.isStatus());
+            ps.setString(5, user.getPassword());
+            ps.setString(6, user.getDob());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

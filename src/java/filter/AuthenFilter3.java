@@ -19,7 +19,7 @@ import model.User;
 public class AuthenFilter3 implements Filter {
     // Role constants
     private static final String US = "user";
-    private static final String AD = "Admin";
+    private static final String AD = "admin";
     // Login page
     private static final String LOGIN_PAGE = "login.jsp";
     private static final boolean DEBUG = true;
@@ -48,7 +48,8 @@ public class AuthenFilter3 implements Filter {
                 "products",
                 "users",
                 "logout",
-                LOGIN_PAGE
+                LOGIN_PAGE,
+                "unauthorizedPage.jsp"
         ));
 
         // Resources accessible by normal user
@@ -57,7 +58,9 @@ public class AuthenFilter3 implements Filter {
                 "listProduct.jsp",
                 "products",
                 "logout",
-                LOGIN_PAGE
+                LOGIN_PAGE,
+                
+                "unauthorizedPage.jsp"
         ));
     }
 
@@ -79,7 +82,7 @@ public class AuthenFilter3 implements Filter {
             String uri = req.getRequestURI();
 
             // Cho phép truy cập các tài nguyên tĩnh và trang login
-            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE)) {
+            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith("/login")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -98,12 +101,12 @@ public class AuthenFilter3 implements Filter {
             String role = user.getRole();
 
             // Phân quyền truy cập theo role
-            if (US.equals(role) && USER_FUNC.contains(resource)) {
+            if (US.equals(role.toLowerCase()) && USER_FUNC.contains(resource)) {
                 chain.doFilter(request, response);
-            } else if (AD.equals(role) && ADMIN_FUNC.contains(resource)) {
+            } else if (AD.equals(role.toLowerCase()) && ADMIN_FUNC.contains(resource)) {
                 chain.doFilter(request, response);
             } else {
-                res.sendRedirect(LOGIN_PAGE);
+                res.sendRedirect("unauthorizedPage.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();  // Nên dùng logger thực tế

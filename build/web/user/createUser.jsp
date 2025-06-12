@@ -101,6 +101,6 @@
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
-            <a href="${pageContext.request.contextPath}/products" class="btn btn-default">Cancel</a>
+            <a href="${pageContext.request.contextPath}/users" class="btn btn-default">Cancel</a>
     </body>
 </html>
