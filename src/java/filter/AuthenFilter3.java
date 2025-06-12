@@ -48,10 +48,10 @@ public class AuthenFilter3 implements Filter {
                 "products",
                 "users",
                 "logout",
+                "productcart",
                 "productListCart.jsp",
                 "cart",
-                                "cart.jsp",
-
+                "cart.jsp",
                 LOGIN_PAGE,
                 "unauthorizedPage.jsp"
         ));
@@ -65,6 +65,7 @@ public class AuthenFilter3 implements Filter {
                 "productListCart.jsp",
                 "cart",
                 "cart.jsp",
+                "productcart",
                 LOGIN_PAGE,
                 "unauthorizedPage.jsp"
         ));
@@ -87,8 +88,11 @@ public class AuthenFilter3 implements Filter {
             HttpServletResponse res = (HttpServletResponse) response;
             String uri = req.getRequestURI();
 
-            // Cho phép truy cập các tài nguyên tĩnh và trang login
-            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith("/login")) {
+            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith("/login")
+                    || (uri.endsWith("/products") && "cart".equals(req.getParameter("action")))
+                    || uri.endsWith("/product/productListCart.jsp")
+                    || uri.endsWith("/cart") || uri.endsWith("/cart/cart.jsp")
+                    || uri.endsWith("/productcart")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -116,7 +120,7 @@ public class AuthenFilter3 implements Filter {
             }
         } catch (Exception e) {
             e.printStackTrace();  // Nên dùng logger thực tế
-            ((HttpServletResponse) response).sendRedirect(((HttpServletRequest)request).getContextPath() + "/" + LOGIN_PAGE);
+            ((HttpServletResponse) response).sendRedirect(((HttpServletRequest) request).getContextPath() + "/" + LOGIN_PAGE);
         }
     }
 

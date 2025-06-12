@@ -4,9 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/src/java/controller/CartServlet.java</file>
+            <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/web/product/listProduct.jsp</file>
+            <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/src/java/controller/ProductCartServlet.java</file>
             <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/src/java/controller/ProductServlet.java</file>
-            <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/web/product/productListCart.jsp</file>
             <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/src/java/filter/AuthenFilter3.java</file>
+            <file>file:/C:/Users/LOQ/Documents/NetBeansProjects/user_management/web/productcart/productListCart.jsp</file>
         </group>
     </open-files>
 </project-private>
