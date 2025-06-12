@@ -10,6 +10,7 @@
                 <a href="${pageContext.request.contextPath}/logout">Logout</a>
                 <a href="${pageContext.request.contextPath}/users" class="btn btn-default">Users</a>
         <p><a href="products?action=create">Add New Product</a></p>
+        <p><a href="products?action=cart">Shop Products</a></p>
         <%-- Thiết lập số sản phẩm hiển thị trên mỗi trang --%>
         <c:set var="pageSize" value="10"/>
         <c:set var="currentPage" value="${param.page != null ? param.page : 1}"/>
@@ -67,3 +68,4 @@
             </c:if>
         </div>
     </body>
+</html>
