@@ -123,6 +123,9 @@ public class ProductServlet extends HttpServlet {
             case "select":
                 selectProduct(request, response);
                 break;
+            case "cart":
+                getListProductsForCart(request, response);
+                break;
             default:
                 getListProducts(request, response);
                 break;
@@ -166,9 +169,7 @@ public class ProductServlet extends HttpServlet {
             case "select":
                 selectProduct(request, response);
                 break;
-            case "cart":
-                getListProductsForCart(request, response);
-                break;
+
             default:
                 getListProducts(request, response);
                 break;
@@ -244,8 +245,7 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         List<Product> productList = productService.getAllProducts();
         request.setAttribute("products", productList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("product/productListCart.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/product/productListCart.jsp");
     }
 
     // Phương thức hiển thị chi tiết sản phẩm
