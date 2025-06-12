@@ -1,6 +1,5 @@
 package filter;
 
-
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -17,6 +16,7 @@ import model.User;
 
 @WebFilter(filterName = "AuthenFilter3", urlPatterns = {"/*"})
 public class AuthenFilter3 implements Filter {
+
     // Role constants
     private static final String US = "user";
     private static final String AD = "admin";
@@ -48,6 +48,10 @@ public class AuthenFilter3 implements Filter {
                 "products",
                 "users",
                 "logout",
+                "productListCart.jsp",
+                "cart",
+                                "cart.jsp",
+
                 LOGIN_PAGE,
                 "unauthorizedPage.jsp"
         ));
@@ -58,8 +62,10 @@ public class AuthenFilter3 implements Filter {
                 "listProduct.jsp",
                 "products",
                 "logout",
+                "productListCart.jsp",
+                "cart",
+                "cart.jsp",
                 LOGIN_PAGE,
-                
                 "unauthorizedPage.jsp"
         ));
     }
