@@ -94,8 +94,8 @@ public class AuthenFilter3 implements Filter {
             }
 
             // Lấy tên tài nguyên
-            int index = uri.lastIndexOf("/");
-            String resource = uri.substring(index + 1);
+            String[] parts = uri.split("/");
+            String resource = parts.length > 0 ? parts[parts.length - 1] : uri;
 
             HttpSession session = req.getSession(false);
             if (session == null || session.getAttribute("user") == null) {
