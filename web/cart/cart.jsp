@@ -13,6 +13,7 @@
                     <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Tổng</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,8 +21,22 @@
                     <tr>
                         <td>${item.product.name}</td>
                         <td>${item.product.price}</td>
-                        <td>${item.quantity}</td>
+                        <td>
+                            <form action="<%= request.getContextPath()%>/cart" method="post">
+                                <input type="hidden" name="action" value="update"/>
+                                <input type="hidden" name="productId" value="${item.product.id}"/>
+                                <input type="number" name="quantity" value="${item.quantity}" min="1"/>
+                                <input type="submit" value="Cập nhật"/>
+                            </form>
+                        </td>
                         <td>${item.product.price * item.quantity}</td>
+                        <td>
+                            <form action="<%= request.getContextPath()%>/cart" method="post">
+                                <input type="hidden" name="action" value="remove"/>
+                                <input type="hidden" name="productId" value="${item.product.id}"/>
+                                <input type="submit" value="Xóa"/>
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

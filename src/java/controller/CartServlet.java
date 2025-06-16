@@ -74,7 +74,9 @@ public class CartServlet extends HttpServlet {
                 cart.clear(); // clear giỏ hàng
                 session.setAttribute("cart", cart);
                 request.setAttribute("message", "Đặt hàng thành công!");
-                request.getRequestDispatcher(request.getContextPath() +"cart/cart.jsp").forward(request, response);
+                // Forward to cart page without prefixing context path to avoid
+                // invalid internal path which caused filter exceptions
+                request.getRequestDispatcher("/cart/cart.jsp").forward(request, response);
                 return;
 
         }
