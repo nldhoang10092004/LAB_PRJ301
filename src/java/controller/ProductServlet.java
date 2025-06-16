@@ -90,9 +90,7 @@ public class ProductServlet extends HttpServlet {
             case "select":
                 selectProduct(request, response);
                 break;
-            case "cart":
-                getListProductsForCart(request, response);
-                break;
+
             default:
                 getListProducts(request, response);
                 break;

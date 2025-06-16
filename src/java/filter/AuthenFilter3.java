@@ -87,7 +87,9 @@ public class AuthenFilter3 implements Filter {
             HttpServletRequest req = (HttpServletRequest) request;
             HttpServletResponse res = (HttpServletResponse) response;
             String uri = req.getRequestURI();
-
+            if (uri != null && uri.endsWith("/")) {
+                uri = uri.substring(0, uri.length() - 1);
+            }
             if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith("/login")
                     || (uri.endsWith("/products") && "cart".equals(req.getParameter("action")))
                     || uri.endsWith("/product/productListCart.jsp")
@@ -116,7 +118,8 @@ public class AuthenFilter3 implements Filter {
             } else if (AD.equals(role.toLowerCase()) && ADMIN_FUNC.contains(resource)) {
                 chain.doFilter(request, response);
             } else {
-                res.sendRedirect("unauthorizedPage.jsp");
+                res.sendRedirect(req.getContextPath() + "/unauthorizedPage.jsp");
+
             }
         } catch (Exception e) {
             e.printStackTrace();  // Nên dùng logger thực tế

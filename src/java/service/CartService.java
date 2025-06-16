@@ -3,9 +3,19 @@ package service;
 import java.util.Iterator;
 import java.util.List;
 import model.CartItem;
+import model.Order;
 import model.Product;
+import orderDAO.OrderDAO;
 
 public class CartService implements ICartService {
+
+    // 🔴 Sửa: Khai báo biến instance cho OrderDAO
+    private OrderDAO orderDAO;
+
+    public CartService() {
+        // ✅ Sửa: Lưu OrderDAO vào biến instance
+        orderDAO = new OrderDAO();
+    }
 
     @Override
     public void addToCart(List<CartItem> cart, Product product, int quantity) {
@@ -46,5 +56,28 @@ public class CartService implements ICartService {
             return;
         }
         cart.removeIf(item -> item.getProduct().getId() == productId);
+    }
+
+    @Override
+    public void checkout(List<CartItem> cart, int userId) {
+        if (cart == null || cart.isEmpty()) {
+            return;
+        }
+
+        double total = cart.stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+
+        Order order = new Order();
+        order.setUserId(userId);
+        order.setTotalPrice(total);
+        order.setStatus("PENDING");
+
+        // ✅ Sử dụng biến orderDAO đã khởi tạo
+        int orderId = orderDAO.createOrder(order);
+
+        for (CartItem item : cart) {
+            orderDAO.addOrderDetail(orderId, item.getProduct().getId(), item.getQuantity(), item.getProduct().getPrice());
+        }
     }
 }

@@ -10,6 +10,7 @@ import service.*;
 
 @WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
 public class CartServlet extends HttpServlet {
+
     private IProductService productService;
     private ICartService cartService;
 
@@ -20,7 +21,7 @@ public class CartServlet extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         // Lấy giỏ hàng từ session
         HttpSession session = request.getSession();
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
@@ -34,13 +35,13 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
         if (cart == null) {
@@ -65,6 +66,17 @@ public class CartServlet extends HttpServlet {
             case "remove":
                 cartService.removeCartItem(cart, productId);
                 break;
+            case "checkout":
+                User currentUser = (User) session.getAttribute("user");
+                if (currentUser != null) {
+                    cartService.checkout(cart, currentUser.getId());
+                }
+                cart.clear(); // clear giỏ hàng
+                session.setAttribute("cart", cart);
+                request.setAttribute("message", "Đặt hàng thành công!");
+                request.getRequestDispatcher(request.getContextPath() +"cart/cart.jsp").forward(request, response);
+                return;
+
         }
 
         session.setAttribute("cart", cart);
