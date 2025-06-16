@@ -70,11 +70,13 @@ public class CartServlet extends HttpServlet {
                 User currentUser = (User) session.getAttribute("user");
                 if (currentUser != null) {
                     cartService.checkout(cart, currentUser.getId());
+                    cart.clear(); // clear giỏ hàng
+                    session.setAttribute("cart", cart);
+                    session.setAttribute("message", "Đặt hàng thành công!");
+                    response.sendRedirect("cart/cart.jsp"); // ✅ Redirect thay vì forward để tránh lặp lại form submit
+                } else {
+                    response.sendRedirect("login.jsp"); // ✅ Chuyển hướng login nếu chưa đăng nhập
                 }
-                cart.clear(); // clear giỏ hàng
-                session.setAttribute("cart", cart);
-                request.setAttribute("message", "Đặt hàng thành công!");
-                request.getRequestDispatcher(request.getContextPath() +"cart/cart.jsp").forward(request, response);
                 return;
 
         }
