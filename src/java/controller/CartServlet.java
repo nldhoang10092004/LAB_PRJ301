@@ -49,7 +49,11 @@ public class CartServlet extends HttpServlet {
         }
 
         String action = request.getParameter("action");
-        int productId = Integer.parseInt(request.getParameter("productId"));
+        int productId = 0;
+        String productIdParam = request.getParameter("productId");
+        if (productIdParam != null && !productIdParam.isEmpty()) {
+            productId = Integer.parseInt(productIdParam);
+        }
 
         switch (action) {
             case "add":
